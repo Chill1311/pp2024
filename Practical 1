@@ -1,0 +1,74 @@
+class Student:
+    def __init__(self, student_id, name, dob):
+        self.student_id = student_id
+        self.name = name
+        self.dob = dob
+
+    def __str__(self):
+        return f"Student{{id='{self.student_id}', name='{self.name}', dob='{self.dob}'}}"
+class Course:
+    def __init__(self, course_id, name):
+        self.course_id = course_id
+        self.name = name
+        self.student_marks = {}
+
+    def add_mark(self, student_id, mark):
+        self.student_marks[student_id] = mark
+
+    def get_mark(self, student_id):
+        return self.student_marks.get(student_id, None)
+
+    def __str__(self):
+        return f"Course{{id='{self.course_id}', name='{self.name}'}}"
+
+    def print_marks(self):
+        for student_id, mark in self.student_marks.items():
+            print(f"Student ID: {student_id}, Mark: {mark}")
+def main():
+    students = []
+    courses = []
+
+    num_students = int(input("Enter number of students: "))
+
+    for _ in range(num_students):
+        student_id = input("Enter student ID: ")
+        name = input("Enter student name: ")
+        dob = input("Enter student Date of Birth (dd/MM/yyyy): ")
+        students.append(Student(student_id, name, dob))
+
+    num_courses = int(input("Enter number of courses: "))
+
+    for _ in range(num_courses):
+        course_id = input("Enter course ID: ")
+        name = input("Enter course name: ")
+        courses.append(Course(course_id, name))
+
+    course_id = input("Select course ID to input marks: ")
+    selected_course = next((course for course in courses if course.course_id == course_id), None)
+
+    if selected_course:
+        for student in students:
+            mark = float(input(f"Enter mark for student {student.name}: "))
+            selected_course.add_mark(student.student_id, mark)
+    else:
+        print("Course not found!")
+
+    print("Courses:")
+    for course in courses:
+        print(course)
+
+    print("Students:")
+    for student in students:
+        print(student)
+
+    course_id = input("Select course ID to show marks: ")
+    selected_course = next((course for course in courses if course.course_id == course_id), None)
+
+    if selected_course:
+        selected_course.print_marks()
+    else:
+        print("Course not found!")
+
+if __name__ == "__main__":
+    main()
+
